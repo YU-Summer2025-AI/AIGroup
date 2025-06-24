@@ -231,3 +231,94 @@ ADD CONSTRAINT female_member
 FOREIGN KEY (female_id)
 REFERENCES members(id);
 
+ALTER TABLE matches
+ADD COLUMN overall_pr VARCHAR(255);
+
+UPDATE matches
+SET overall_pr =
+	CASE
+		-- This is the GREATEST() function from your subquery.
+		-- It finds the highest progress value among the four source columns.
+		GREATEST(
+			COALESCE( -- Use COALESCE to safely handle NULLs, defaulting them to 0
+				CASE matchmaker_pr
+					WHEN 'AI No Response' THEN 10
+					WHEN 'Never Got in Touch' THEN 20
+					WHEN 'AI Accepted' THEN 30
+					WHEN 'Spoke on phone' THEN 50
+					WHEN 'Speaking Virtually' THEN 60
+					WHEN 'Spoke on phone & not going out' THEN 70
+					WHEN 'Spoke on phone & Not going out' THEN 70
+					WHEN 'Spoke on phone & NOT going out' THEN 70
+					WHEN 'Went on First date' THEN 80
+					WHEN 'Went on multiple dates' THEN 90
+					WHEN 'Went on date(s) & not going out again' THEN 100
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Engaged' THEN 140
+					ELSE 0
+				END, 0),
+			COALESCE(
+				CASE male_pr
+					WHEN 'AI No Response' THEN 10
+					WHEN 'Never Got in Touch' THEN 20
+					WHEN 'AI Accepted' THEN 30
+					WHEN 'Spoke on phone' THEN 50
+					WHEN 'Speaking Virtually' THEN 60
+					WHEN 'Spoke on phone & not going out' THEN 70
+					WHEN 'Spoke on phone & Not going out' THEN 70
+					WHEN 'Spoke on phone & NOT going out' THEN 70
+					WHEN 'Went on First date' THEN 80
+					WHEN 'Went on multiple dates' THEN 90
+					WHEN 'Went on date(s) & not going out again' THEN 100
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Engaged' THEN 140
+					ELSE 0
+				END, 0),
+			COALESCE(
+				CASE female_pr
+					WHEN 'AI No Response' THEN 10
+					WHEN 'Never Got in Touch' THEN 20
+					WHEN 'AI Accepted' THEN 30
+					WHEN 'Spoke on phone' THEN 50
+					WHEN 'Speaking Virtually' THEN 60
+					WHEN 'Spoke on phone & not going out' THEN 70
+					WHEN 'Spoke on phone & Not going out' THEN 70
+					WHEN 'Spoke on phone & NOT going out' THEN 70
+					WHEN 'Went on First date' THEN 80
+					WHEN 'Went on multiple dates' THEN 90
+					WHEN 'Went on date(s) & not going out again' THEN 100
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Engaged' THEN 140
+					ELSE 0
+				END, 0),
+			COALESCE(
+				CASE ms
+					WHEN 'Mutually approved' THEN 40
+					WHEN 'New match' THEN 110
+					WHEN 'Phone# sent' THEN 130
+				    WHEN 'Male declined' THEN 150
+				    WHEN 'Female declined' THEN 160
+					ELSE 0
+				END, 0)
+		)
+		-- This is the CASE statement from your outer query.
+		-- It translates the max_progress number back into a human-readable string.
+		WHEN 0 THEN NULL
+		WHEN 10 THEN 'AI No Response'
+		WHEN 20 THEN 'Never Got in Touch'
+		WHEN 30 THEN 'AI Accepted'
+		WHEN 40 THEN 'Mutually approved'
+		WHEN 50 THEN 'Spoke on phone'
+		WHEN 60 THEN 'Speaking Virtually'
+		WHEN 70 THEN 'Spoke on phone & not going out'
+		WHEN 80 THEN 'Went on First date'
+		WHEN 90 THEN 'Went on multiple dates'
+		WHEN 100 THEN 'Went on date(s) & not going out again'
+		WHEN 110 THEN 'New match'
+		WHEN 120 THEN 'Dating exclusively'
+		WHEN 130 THEN 'Phone# sent'
+		WHEN 140 THEN 'Engaged'
+	    WHEN 150 THEN 'Male declined'
+	    WHEN 160 THEN 'Female declined'
+		ELSE NULL
+	END;
