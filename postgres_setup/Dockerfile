@@ -1,30 +1,29 @@
-# Use the official PostgreSQL image as a base
+# Stage 1: The "builder" stage to prepare the data
+# This stage runs Python independently during the 'docker build' process.
+FROM python:3.9-slim as builder
+
+# Set a working directory inside the builder stage
+WORKDIR /app
+
+
+# Copy your python script and the raw data into the builder
+COPY rename_columns.py .
+COPY raw_data/ ./raw_data/
+
+# Run the python script to modify the CSV files in place.
+# This is the "independent" run of your script. It happens now, during the build.
+RUN python rename_columns.py
+
+# --- The builder stage is now complete, and the processed data is in /app/raw_data/ ---
+
+
+# Stage 2: The final postgres image
+# This stage knows nothing about Python. It only receives the processed data.
 FROM postgres:latest
 
-# Switch to root user to install dependencies
-USER root
-
-# Update package lists and install python and pip
-# rm -rf /var/lib/apt/lists/* cleans up cache to keep image size down
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip && \
-    rm -rf /var/lib/apt/lists/*
-
-COPY rename_columns.py /docker-entrypoint-initdb.d/
-
+# Copy your database initialization script
 COPY init.sql /docker-entrypoint-initdb.d/
 
-COPY raw_data/ /docker-entrypoint-initdb.d/raw_data/
-
-COPY 01-run-python.sh /docker-entrypoint-initdb.d/
-
-RUN chown -R postgres:postgres /docker-entrypoint-initdb.d/
-
-# Make the shell script executable
-RUN chmod +x /docker-entrypoint-initdb.d/01-run-python.sh
-
-USER postgres
-
-
-
-
+# Copy the MODIFIED CSV data from the 'builder' stage into the final image.
+# The source path (/app/raw_data/) is from the builder stage defined above.
+COPY --from=builder /app/raw_data/ /docker-entrypoint-initdb.d/raw_data/
