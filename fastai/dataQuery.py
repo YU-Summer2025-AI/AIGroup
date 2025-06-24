@@ -20,7 +20,7 @@ print(df.head())
 cat_names = ['Male_MemberData', 'Female_MemberData', 'Male_Frequency_of_Torah_study', 'Female_Dress', 'Male_Family_Background', 'Female_Family_Background', 'Male_Marriage_Status', 'Female_Marriage_Status', 'Male_Political_Orientation', 'Female_Political_Orientation', 'Male_Introvert_Extravert', 'Female_Introvert_Extravert', 'Male_Sensor_Intuitive', 'Female_Sensor_Intuitive', 'Male_Thinker_Feeler', 'Female_Thinker_Feeler', 'Male_Judger_Perceiver', 'Female_Judger_Perceiver', 'Male_Minimum_Education_level', 'Female_Minimum_Education_level', 'Male_Jewish_Education', 'Female_Jewish_Education']
 cont_names = ['Male_Age', 'Female_Age']
 
-dep_var = 'match_status_for_match'
+dep_var = 'ms'
 
 
 procs = [Categorify, Normalize]
