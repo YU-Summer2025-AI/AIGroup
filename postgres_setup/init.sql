@@ -201,6 +201,18 @@ RENAME COLUMN "Height_range_From" TO height_min;
 ALTER TABLE members
 RENAME COLUMN "Height_range_To" TO height_max;
 
+-- the following gets rid of duplicate matches (match of man and woman that appears twice)
+DELETE FROM matches
+WHERE id NOT IN (
+    SELECT MIN(id)
+    FROM matches
+    GROUP BY male_id, female_id
+);
+
+ALTER TABLE matches
+ADD CONSTRAINT no_duplicate_matches UNIQUE (male_id, female_id);
+
+-- nulls out any male or female id in matches that doesn't correspond to an id in members (about 2 unique ids)
 UPDATE matches
 SET male_id = NULL
 WHERE male_id NOT IN (SELECT id FROM members);
@@ -218,3 +230,4 @@ ALTER TABLE matches
 ADD CONSTRAINT female_member
 FOREIGN KEY (female_id)
 REFERENCES members(id);
+
