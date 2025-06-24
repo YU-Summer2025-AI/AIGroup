@@ -1,6 +1,6 @@
 select 
-matches.match_status_for_match,
-male."Age" as "Male_Age",female."Age" as "Female_Age",
+matches.ms,
+male.age as "Male_Age",female.age as "Female_Age",
 male."Religious_orientation" as "Male_MemberData", 
 female."Religious_orientation" as "Female_MemberData",
 male."Frequency_of_Torah_study_male" as "Male_Frequency_of_Torah_study",
@@ -24,11 +24,11 @@ female."Minimum_Education_level" as "Female_Minimum_Education_level",
 male."Jewish_education" as "Male_Jewish_Education",
 female."Jewish_education" as "Female_Jewish_Education"
 from matches
-left join memberdata as male on matches.male_id = male."Member_ID"::integer
-left join memberdata as female on matches.female_id = female."Member_ID"::integer
+left join members as male on matches.male_id = male.id
+left join members as female on matches.female_id = female.id
 where row(
-male."Age", 
-female."Age",
+male.age, 
+female.age,
 male."Religious_orientation",
 female."Religious_orientation",
 male."Frequency_of_Torah_study_male",
