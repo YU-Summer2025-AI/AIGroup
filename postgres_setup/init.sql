@@ -14,12 +14,12 @@ CREATE TABLE Matches
 );
 
 CREATE TABLE MemberData (
-        "Member_ID" VARCHAR, 
+        "Member_ID" INT PRIMARY KEY ,
         "Country" VARCHAR, 
         "City" VARCHAR, 
         "State" VARCHAR, 
         "Gender" VARCHAR, 
-        "Age" VARCHAR, 
+        "Age" VARCHAR,
         "Religious_orientation" VARCHAR, 
         "Ethnicity" VARCHAR, 
         "Cultural_Background" VARCHAR, 
@@ -174,9 +174,6 @@ ALTER TABLE matches
 RENAME COLUMN How_far_off_was_the_match TO match_quality;
 
 
-
-
-
 ALTER TABLE MemberData
 RENAME TO members;
 
@@ -203,3 +200,21 @@ RENAME COLUMN "Height_range_From" TO height_min;
 
 ALTER TABLE members
 RENAME COLUMN "Height_range_To" TO height_max;
+
+UPDATE matches
+SET male_id = NULL
+WHERE male_id NOT IN (SELECT id FROM members);
+
+UPDATE matches
+SET female_id = NULL
+WHERE female_id NOT IN (SELECT id FROM members);
+
+ALTER TABLE matches
+ADD CONSTRAINT male_member
+FOREIGN KEY (male_id)
+REFERENCES members (id);
+
+ALTER TABLE matches
+ADD CONSTRAINT female_member
+FOREIGN KEY (female_id)
+REFERENCES members(id);
