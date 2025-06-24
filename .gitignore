@@ -1,0 +1,30 @@
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# VSCode
+.vscode/
+
+# IntelliJ / JetBrains
+.idea/
+*.iml
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Sublime
+*.sublime-workspace
+*.sublime-project
+
+# Python
+__pycache__/
+*.pyc
+.env
+
+# Data
+*.csv
