@@ -21,7 +21,6 @@ cat_names = ['Male_MemberData', 'Female_MemberData', 'Male_Frequency_of_Torah_st
 cont_names = ['Male_Age', 'Female_Age']
 
 dep_var = 'match_status_for_match'
-df[dep_var] = pd.Categorical(df[dep_var], categories=['Closed', 'Female declined', 'Male declined'], ordered=True)
 
 
 procs = [Categorify, Normalize]
