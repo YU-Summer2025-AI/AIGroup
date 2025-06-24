@@ -149,3 +149,57 @@ WITH (
     NULL 'NULL'
 );
 
+ALTER TABLE matches
+RENAME COLUMN Match_ID TO id;
+
+ALTER TABLE matches
+RENAME COLUMN Match_status_for_match TO ms;
+
+ALTER TABLE matches
+RENAME COLUMN Match_status_male TO male_s;
+
+ALTER TABLE matches
+RENAME COLUMN Match_status_female TO female_s;
+
+ALTER TABLE matches
+RENAME COLUMN Progress_report_male TO male_pr;
+
+ALTER TABLE matches
+RENAME COLUMN Progress_report_female TO female_pr;
+
+ALTER TABLE matches
+RENAME COLUMN Progress_report_Matchmaker TO matchmaker_pr;
+
+ALTER TABLE matches
+RENAME COLUMN How_far_off_was_the_match TO match_quality;
+
+
+
+
+
+ALTER TABLE MemberData
+RENAME TO members;
+
+ALTER TABLE members
+RENAME COLUMN "Member_ID" TO id;
+
+ALTER TABLE members
+RENAME COLUMN "Gender" TO gender;
+
+ALTER TABLE members
+RENAME COLUMN "Age" TO age;
+
+ALTER TABLE members
+RENAME COLUMN "Age_range_From" TO age_min;
+
+ALTER TABLE members
+RENAME COLUMN "Age_range_To" TO age_max;
+
+ALTER TABLE members
+RENAME COLUMN "Height" TO height;
+
+ALTER TABLE members
+RENAME COLUMN "Height_range_From" TO height_min;
+
+ALTER TABLE members
+RENAME COLUMN "Height_range_To" TO height_max;
