@@ -1,6 +1,6 @@
 # Stage 1: The "builder" stage to prepare the data
 # This stage runs Python independently during the 'docker build' process.
-FROM python:3.9-slim as builder
+FROM python:3.9-slim AS builder
 
 # Set a working directory inside the builder stage
 WORKDIR /app
