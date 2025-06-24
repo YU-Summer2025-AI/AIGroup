@@ -1,3 +1,6 @@
-pandas>=1.5.0
-SQLAlchemy>=1.4.0
-fastai>=2.7.0
+# requirements.txt
+
+SQLAlchemy
+psycopg2-binary
+pandas
+fastai
