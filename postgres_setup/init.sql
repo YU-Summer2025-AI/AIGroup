@@ -363,14 +363,22 @@ WHERE id IN
     m."looking_for_in_a_person"~* '\mtest\M' AND 
     m."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
     m."looking_for_in_a_person" NOT LIKE '%biggest test%')
-    or
+    OR
     (f."short_description_of_yourself" ~* '\mtest\M' AND 
     f."looking_for_in_a_person"~* '\mtest\M' AND 
     f."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
     f."looking_for_in_a_person" NOT LIKE '%biggest test%')
-    );
-
+    OR
+    (m."short_description_of_yourself"ILIKE '%testing%' AND m."looking_for_in_a_person" ILIKE '%testing%')
+    OR
+    (f."short_description_of_yourself"ILIKE '%testing%' AND f."looking_for_in_a_person" ILIKE '%testing%')
+);
 DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND 
 "looking_for_in_a_person"~* '\mtest\M' AND 
 "looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
-"looking_for_in_a_person" NOT LIKE '%biggest test%';
+"looking_for_in_a_person" NOT LIKE '%biggest test%' OR
+"short_description_of_yourself"ILIKE '%testing%' AND
+"looking_for_in_a_person" ILIKE '%testing%';
+
+
+
