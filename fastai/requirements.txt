@@ -1,0 +1,6 @@
+# requirements.txt
+
+SQLAlchemy
+psycopg2-binary
+pandas
+fastai
