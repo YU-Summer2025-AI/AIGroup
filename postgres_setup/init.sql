@@ -242,3 +242,12 @@ DROP COLUMN community_work_2,
 DROP COLUMN "Name_seminaries",
 DROP COLUMN "Parents_marital_status",
 DROP COLUMN "Parent_shul";
+
+
+UPDATE members
+SET times_divorced = 
+    CASE
+        WHEN  "My_marriage_status" = 'Single (Never Married)' THEN '0'
+        ELSE '>=1'
+    END
+WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
