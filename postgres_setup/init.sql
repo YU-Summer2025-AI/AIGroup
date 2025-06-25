@@ -231,3 +231,14 @@ ADD CONSTRAINT female_member
 FOREIGN KEY (female_id)
 REFERENCES members(id);
 
+ALTER TABLE members
+DROP COLUMN "Cultural_Background",
+DROP COLUMN how_long_married,
+DROP COLUMN "have_Jewish_Divorce",
+DROP COLUMN have_civil_divorce,
+DROP COLUMN have_children,
+DROP COLUMN looking_for_in_spouse,
+DROP COLUMN community_work_2,
+DROP COLUMN "Name_seminaries",
+DROP COLUMN "Parents_marital_status",
+DROP COLUMN "Parent_shul";
