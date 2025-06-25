@@ -355,6 +355,9 @@ SET times_divorced =
 WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
 
 
+
+
+
 --removes test rows
 DELETE FROM matches
 WHERE id IN    
@@ -372,13 +375,19 @@ WHERE id IN
     (m."short_description_of_yourself"ILIKE '%testing%' AND m."looking_for_in_a_person" ILIKE '%testing%')
     OR
     (f."short_description_of_yourself"ILIKE '%testing%' AND f."looking_for_in_a_person" ILIKE '%testing%')
+    OR m."City" ~* '\mtest\M' 
+    OR m."Name_Secondary_School"  ILIKE '%test%'
+    OR f."City" ~* '\mtest\M' 
+    OR f."Name_Secondary_School"  ILIKE '%test%'
 );
 DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND 
 "looking_for_in_a_person"~* '\mtest\M' AND 
 "looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
 "looking_for_in_a_person" NOT LIKE '%biggest test%' OR
 "short_description_of_yourself"ILIKE '%testing%' AND
-"looking_for_in_a_person" ILIKE '%testing%';
+"looking_for_in_a_person" ILIKE '%testing%' OR
+"City" ~* '\mtest\M' OR 
+"Name_Secondary_School"  ILIKE '%test%';
 
 
 
