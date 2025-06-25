@@ -353,6 +353,8 @@ SET times_divorced =
         ELSE '>=1'
     END
 WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
+ALTER TABLE members ADD COLUMN "Acceptable_places_to_live" VARCHAR;
+
 UPDATE members
 SET  "Acceptable_places_to_live" = "Acceptable_places_to_live_Countries" || ' ' || "Acceptable_places_States";
 
