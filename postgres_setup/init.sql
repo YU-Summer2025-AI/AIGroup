@@ -243,36 +243,36 @@ SET overall_pr =
 			COALESCE( -- Use COALESCE to safely handle NULLs, defaulting them to 0
 				CASE matchmaker_pr
 					WHEN 'AI No Response' THEN 10
-                    WHEN 'Never Got in Touch' THEN 40
-                    WHEN 'AI Accepted' THEN 50
-                    WHEN 'Spoke on phone' THEN 70
-                    WHEN 'Speaking Virtually' THEN 80
-                    WHEN 'Spoke on phone & not going out' THEN 90
-                    WHEN 'Spoke on phone & Not going out' THEN 90
-                    WHEN 'Spoke on phone & NOT going out' THEN 90
-                    WHEN 'Went on First date' THEN 100
-                    WHEN 'Went on multiple dates' THEN 110
-                    WHEN 'Went on date(s) & not going out again' THEN 120
-                    WHEN 'Dating exclusively' THEN 130
-                    WHEN 'Engaged' THEN 140
-                    ELSE NULL
+					WHEN 'Never Got in Touch' THEN 40
+					WHEN 'AI Accepted' THEN 50
+					WHEN 'Spoke on phone' THEN 70
+					WHEN 'Speaking Virtually' THEN 80
+					WHEN 'Spoke on phone & not going out' THEN 90
+					WHEN 'Spoke on phone & Not going out' THEN 90
+					WHEN 'Spoke on phone & NOT going out' THEN 90
+					WHEN 'Went on First date' THEN 100
+					WHEN 'Went on multiple dates' THEN 110
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Went on date(s) & not going out again' THEN 130
+					WHEN 'Engaged' THEN 140
+					ELSE NULL
 				END, 0),
 			COALESCE(
 				CASE male_pr
 					WHEN 'AI No Response' THEN 10
-                    WHEN 'Never Got in Touch' THEN 40
-                    WHEN 'AI Accepted' THEN 50
-                    WHEN 'Spoke on phone' THEN 70
-                    WHEN 'Speaking Virtually' THEN 80
-                    WHEN 'Spoke on phone & not going out' THEN 90
-                    WHEN 'Spoke on phone & Not going out' THEN 90
-                    WHEN 'Spoke on phone & NOT going out' THEN 90
-                    WHEN 'Went on First date' THEN 100
-                    WHEN 'Went on multiple dates' THEN 110
-                    WHEN 'Went on date(s) & not going out again' THEN 120
-                    WHEN 'Dating exclusively' THEN 130
-                    WHEN 'Engaged' THEN 140
-                    ELSE NULL
+					WHEN 'Never Got in Touch' THEN 40
+					WHEN 'AI Accepted' THEN 50
+					WHEN 'Spoke on phone' THEN 70
+					WHEN 'Speaking Virtually' THEN 80
+					WHEN 'Spoke on phone & not going out' THEN 90
+					WHEN 'Spoke on phone & Not going out' THEN 90
+					WHEN 'Spoke on phone & NOT going out' THEN 90
+					WHEN 'Went on First date' THEN 100
+					WHEN 'Went on multiple dates' THEN 110
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Went on date(s) & not going out again' THEN 130
+					WHEN 'Engaged' THEN 140
+					ELSE NULL
 				END, 0),
 			COALESCE(
 				CASE female_pr
@@ -286,8 +286,8 @@ SET overall_pr =
 					WHEN 'Spoke on phone & NOT going out' THEN 90
 					WHEN 'Went on First date' THEN 100
 					WHEN 'Went on multiple dates' THEN 110
-					WHEN 'Went on date(s) & not going out again' THEN 120
-					WHEN 'Dating exclusively' THEN 130
+					WHEN 'Dating exclusively' THEN 120
+					WHEN 'Went on date(s) & not going out again' THEN 130
 					WHEN 'Engaged' THEN 140
 					ELSE NULL
 				END, 0),
