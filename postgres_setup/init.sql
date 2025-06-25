@@ -252,8 +252,8 @@ SET overall_pr =
                     WHEN 'Spoke on phone & NOT going out' THEN 90
                     WHEN 'Went on First date' THEN 100
                     WHEN 'Went on multiple dates' THEN 110
-                    WHEN 'Went on date(s) & not going out again' THEN 120
-                    WHEN 'Dating exclusively' THEN 130
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
                     WHEN 'Engaged' THEN 140
                     ELSE 0
 				END, 0),
@@ -269,8 +269,8 @@ SET overall_pr =
                     WHEN 'Spoke on phone & NOT going out' THEN 90
                     WHEN 'Went on First date' THEN 100
                     WHEN 'Went on multiple dates' THEN 110
-                    WHEN 'Went on date(s) & not going out again' THEN 120
-                    WHEN 'Dating exclusively' THEN 130
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
                     WHEN 'Engaged' THEN 140
                     ELSE 0
 				END, 0),
@@ -286,8 +286,8 @@ SET overall_pr =
                     WHEN 'Spoke on phone & NOT going out' THEN 90
                     WHEN 'Went on First date' THEN 100
                     WHEN 'Went on multiple dates' THEN 110
-                    WHEN 'Went on date(s) & not going out again' THEN 120
-                    WHEN 'Dating exclusively' THEN 130
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
                     WHEN 'Engaged' THEN 140
                     ELSE 0
 				END, 0),
@@ -324,8 +324,8 @@ SET overall_pr =
         WHEN 90 THEN 'Spoke on phone & not going out'
         WHEN 100 THEN 'Went on First date'
         WHEN 110 THEN 'Went on multiple dates'
-        WHEN 120 THEN 'Went on date(s) & not going out again'
-        WHEN 130 THEN 'Dating exclusively'
+        WHEN 120 THEN 'Dating exclusively' 
+        WHEN 130 THEN 'Went on date(s) & not going out again'
         WHEN 140 THEN 'Engaged'
         WHEN 150 THEN 'Male declined'
         WHEN 160 THEN 'Female declined'
