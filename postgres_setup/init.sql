@@ -348,11 +348,6 @@ DROP COLUMN "want_to_meet_someone_who_cover_hair",
 DROP COLUMN want_to_meet_someone_who_wears_only_skirts;
 
 
-UPDATE members
-SET times_divorced =
-=======
-DROP COLUMN "Parent_shul";
-
 
 UPDATE members
 SET times_divorced = 
