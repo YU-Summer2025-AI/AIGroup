@@ -354,6 +354,40 @@ SET times_divorced =
     END
 WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
 
+
+DELETE FROM matches
+WHERE id IN    
+    (SELECT matches.id FROM matches LEFT JOIN members AS m ON matches.male_id = m.id LEFT JOIN members AS f ON matches.female_id = f.id WHERE 
+    (m."short_description_of_yourself" ~* '\mtest\M' AND 
+    m."looking_for_in_a_person"~* '\mtest\M' AND 
+    m."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+    m."looking_for_in_a_person" NOT LIKE '%biggest test%')
+    OR
+    (f."short_description_of_yourself" ~* '\mtest\M' AND 
+    f."looking_for_in_a_person"~* '\mtest\M' AND 
+    f."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+    f."looking_for_in_a_person" NOT LIKE '%biggest test%')
+    OR
+    (m."short_description_of_yourself"ILIKE '%testing%' AND m."looking_for_in_a_person" ILIKE '%testing%')
+    OR
+    (f."short_description_of_yourself"ILIKE '%testing%' AND f."looking_for_in_a_person" ILIKE '%testing%')
+    OR m."City" ~* '\mtest\M' 
+    OR m."Name_Secondary_School"  ILIKE '%test%'
+    OR f."City" ~* '\mtest\M' 
+    OR f."Name_Secondary_School"  ILIKE '%test%'
+);
+DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND 
+"looking_for_in_a_person"~* '\mtest\M' AND 
+"looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+"looking_for_in_a_person" NOT LIKE '%biggest test%' OR
+"short_description_of_yourself"ILIKE '%testing%' AND
+"looking_for_in_a_person" ILIKE '%testing%' OR
+"City" ~* '\mtest\M' OR 
+"Name_Secondary_School"  ILIKE '%test%';
+
+
+
+=======
 UPDATE members
 SET "Preference_cultural_background" = 'Any'
 WHERE "Preference_cultural_background" IS NULL OR TRIM("Preference_cultural_background") = '';
