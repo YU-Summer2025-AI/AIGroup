@@ -381,4 +381,11 @@ WHERE "Judger_Perceiver" IS NULL;
 UPDATE members
 SET parents_convert_before_birth = 'No'
 WHERE parents_convert_before_birth IS NULL OR TRIM(parents_convert_before_birth) = '';
+ALTER TABLE members ADD COLUMN "Acceptable_places_to_live" VARCHAR;
 
+UPDATE members
+SET  "Acceptable_places_to_live" = "Acceptable_places_to_live_Countries" || ' ' || "Acceptable_places_States";
+
+ALTER TABLE members
+DROP COLUMN "Acceptable_places_to_live_Countries",
+DROP COLUMN "Acceptable_places_States";
