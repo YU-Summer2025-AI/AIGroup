@@ -61,7 +61,7 @@ CREATE TABLE MemberData (
         "have_Jewish_Divorce" VARCHAR, 
         have_civil_divorce VARCHAR, 
         have_children VARCHAR, 
-        how_many VARCHAR, 
+        how_many_children VARCHAR, 
         number_live_with_you VARCHAR, 
         age_of_youngest VARCHAR, 
         want_additional_children VARCHAR, 
@@ -140,7 +140,7 @@ DELIMITER ','
 CSV HEADER;
 
 COPY MemberData
-("Member_ID","Country","City","State","Gender","Age","Religious_orientation","Ethnicity","Cultural_Background",baal_teshuva,"years_Orthodox_baal_teshuva","Cohen",convert_female,parents_convert,"mother_maternal_grandmother_Jewish","Family_religious_background","Describe_family_religious_background","Head_covering_female","Kosher","Dress_female","Head_covering_male","Frequency_of_Tefilah","Frequency_of_shul_attendance_male","Frequency_of_Torah_study_male","Watching_TV","Going_out_to_Movies","Watching_Movies_at_home",want_to_meet_someone_who_cover_hair,want_to_meet_someone_who_wears_only_skirts,"Secular_education","Emphasis_of_studies","Jewish_education","study_in_Israel","Profession","Job_description","Eye_color","Hair_color","Height","Body_type",mental_physical_disability,"My_marriage_status",how_long_married,"How_long_single",times_divorced,"have_Jewish_Divorce",have_civil_divorce,have_children,how_many,number_live_with_you,age_of_youngest,want_additional_children,"Can_marry_Cohen","Number_of_siblings","Political_orientation","Smoking_habits","How_active_are_you","Plan_to_aliya",willing_to_relocate,pet_person,"Pet_i_own","Additional_pet_i_own",native_language,"Languages_spoken","Age_range_From","Age_range_To","Height_range_From","Height_range_To","Desired_marital_status","Minimum_Education_level",acceptable_for_match_to_have_children,"Acceptable_religious_orientation","Acceptable_smoking_habits",ok_dating_someone_with_disability,"Acceptable_aliyah_responses","Acceptable_kosher_observance",ok_dating_baal_teshuva,"Acceptable_places_to_live_Countries","Acceptable_places_States",family_relgious_background,male_torah_study_female_sign_up,want_covered_hair_male_sign_up,want_only_wears_skirts,"Jewish_education_preference","Body_Type_preference","Preference_regarding_Ethnicity","Preference_cultural_background","My_Personality_Traits","My_Personality_go_out_to","Favorite_Music","Physical_Activities_interests","My_Favorite_Pastimes",looking_for_in_a_person,short_description_of_yourself,looking_for_in_spouse,community_work,"Introvert_Extravert","Sensor_Intuitive","Thinker_Feeler","Judger_Perceiver","Approved","Dating_Status","Colleges_universities",community_work_2,parents_convert_before_birth,"Elementary_school","Location_I_grew_up","Name_Secondary_School","Name_seminaries","Name_study_one_year","Parent_shul","Parent_location","Parents_marital_status","Complete_Incomplete","Photo","Site","Profile_Last_modified_date","Updated")
+("Member_ID","Country","City","State","Gender","Age","Religious_orientation","Ethnicity","Cultural_Background",baal_teshuva,"years_Orthodox_baal_teshuva","Cohen",convert_female,parents_convert,"mother_maternal_grandmother_Jewish","Family_religious_background","Describe_family_religious_background","Head_covering_female","Kosher","Dress_female","Head_covering_male","Frequency_of_Tefilah","Frequency_of_shul_attendance_male","Frequency_of_Torah_study_male","Watching_TV","Going_out_to_Movies","Watching_Movies_at_home",want_to_meet_someone_who_cover_hair,want_to_meet_someone_who_wears_only_skirts,"Secular_education","Emphasis_of_studies","Jewish_education","study_in_Israel","Profession","Job_description","Eye_color","Hair_color","Height","Body_type",mental_physical_disability,"My_marriage_status",how_long_married,"How_long_single",times_divorced,"have_Jewish_Divorce",have_civil_divorce,have_children,how_many_children,number_live_with_you,age_of_youngest,want_additional_children,"Can_marry_Cohen","Number_of_siblings","Political_orientation","Smoking_habits","How_active_are_you","Plan_to_aliya",willing_to_relocate,pet_person,"Pet_i_own","Additional_pet_i_own",native_language,"Languages_spoken","Age_range_From","Age_range_To","Height_range_From","Height_range_To","Desired_marital_status","Minimum_Education_level",acceptable_for_match_to_have_children,"Acceptable_religious_orientation","Acceptable_smoking_habits",ok_dating_someone_with_disability,"Acceptable_aliyah_responses","Acceptable_kosher_observance",ok_dating_baal_teshuva,"Acceptable_places_to_live_Countries","Acceptable_places_States",family_relgious_background,male_torah_study_female_sign_up,want_covered_hair_male_sign_up,want_only_wears_skirts,"Jewish_education_preference","Body_Type_preference","Preference_regarding_Ethnicity","Preference_cultural_background","My_Personality_Traits","My_Personality_go_out_to","Favorite_Music","Physical_Activities_interests","My_Favorite_Pastimes",looking_for_in_a_person,short_description_of_yourself,looking_for_in_spouse,community_work,"Introvert_Extravert","Sensor_Intuitive","Thinker_Feeler","Judger_Perceiver","Approved","Dating_Status","Colleges_universities",community_work_2,parents_convert_before_birth,"Elementary_school","Location_I_grew_up","Name_Secondary_School","Name_seminaries","Name_study_one_year","Parent_shul","Parent_location","Parents_marital_status","Complete_Incomplete","Photo","Site","Profile_Last_modified_date","Updated")
 FROM '/docker-entrypoint-initdb.d/raw_data/YUAIMemberData17June2025.csv'
 WITH (
     FORMAT csv,
@@ -231,6 +231,108 @@ ADD CONSTRAINT female_member
 FOREIGN KEY (female_id)
 REFERENCES members(id);
 
+ALTER TABLE matches
+ADD COLUMN overall_pr VARCHAR(255);
+
+UPDATE matches
+SET overall_pr =
+	CASE
+		-- This is the GREATEST() function from your subquery.
+		-- It finds the highest progress value among the four source columns.
+		GREATEST(
+			COALESCE( -- Use COALESCE to safely handle NULLs, defaulting them to 0
+				CASE matchmaker_pr
+					WHEN 'AI No Response' THEN 10
+                    WHEN 'Never Got in Touch' THEN 40
+                    WHEN 'AI Accepted' THEN 50
+                    WHEN 'Spoke on phone' THEN 70
+                    WHEN 'Speaking Virtually' THEN 80
+                    WHEN 'Spoke on phone & not going out' THEN 90
+                    WHEN 'Spoke on phone & Not going out' THEN 90
+                    WHEN 'Spoke on phone & NOT going out' THEN 90
+                    WHEN 'Went on First date' THEN 100
+                    WHEN 'Went on multiple dates' THEN 110
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
+                    WHEN 'Engaged' THEN 140
+                    ELSE 0
+				END, 0),
+			COALESCE(
+				CASE male_pr
+					WHEN 'AI No Response' THEN 10
+                    WHEN 'Never Got in Touch' THEN 40
+                    WHEN 'AI Accepted' THEN 50
+                    WHEN 'Spoke on phone' THEN 70
+                    WHEN 'Speaking Virtually' THEN 80
+                    WHEN 'Spoke on phone & not going out' THEN 90
+                    WHEN 'Spoke on phone & Not going out' THEN 90
+                    WHEN 'Spoke on phone & NOT going out' THEN 90
+                    WHEN 'Went on First date' THEN 100
+                    WHEN 'Went on multiple dates' THEN 110
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
+                    WHEN 'Engaged' THEN 140
+                    ELSE 0
+				END, 0),
+			COALESCE(
+				CASE female_pr
+					WHEN 'AI No Response' THEN 10
+                    WHEN 'Never Got in Touch' THEN 40
+                    WHEN 'AI Accepted' THEN 50
+                    WHEN 'Spoke on phone' THEN 70
+                    WHEN 'Speaking Virtually' THEN 80
+                    WHEN 'Spoke on phone & not going out' THEN 90
+                    WHEN 'Spoke on phone & Not going out' THEN 90
+                    WHEN 'Spoke on phone & NOT going out' THEN 90
+                    WHEN 'Went on First date' THEN 100
+                    WHEN 'Went on multiple dates' THEN 110
+                    WHEN 'Dating exclusively' THEN 120
+                    WHEN 'Went on date(s) & not going out again' THEN 130
+                    WHEN 'Engaged' THEN 140
+                    ELSE 0
+				END, 0),
+			COALESCE(
+				CASE ms
+				    WHEN 'New match' THEN 20
+				    WHEN 'Phone# sent' THEN 30
+					WHEN 'Mutually approved' THEN 40
+				    WHEN 'Male declined' THEN 150
+				    WHEN 'Female declined' THEN 160
+					ELSE 0
+				END, 0),
+		    COALESCE(
+                CASE
+                    WHEN male_s = 'Declined' AND female_s = 'Declined' THEN 170
+                    WHEN male_s = 'Declined' THEN 150
+                    WHEN female_s = 'Declined' THEN 160
+                    WHEN male_s = 'Approved' AND female_s = 'Approved' THEN 40
+                    WHEN male_s = 'New match' OR female_s = 'New match' THEN 20
+                    ELSE 0
+                END, 0)
+		)
+		-- This is the CASE statement from your outer query.
+		-- It translates the max_progress number back into a human-readable string.
+		WHEN 0 THEN NULL
+        WHEN 10 THEN 'AI No Response'
+        WHEN 20 THEN 'New match'
+        WHEN 30 THEN 'Phone# sent'
+        WHEN 40 THEN 'Never Got in Touch'
+        WHEN 50 THEN 'AI Accepted'
+        WHEN 60 THEN 'Mutually approved'
+        WHEN 70 THEN 'Spoke on phone'
+        WHEN 80 THEN 'Speaking Virtually'
+        WHEN 90 THEN 'Spoke on phone & not going out'
+        WHEN 100 THEN 'Went on First date'
+        WHEN 110 THEN 'Went on multiple dates'
+        WHEN 120 THEN 'Dating exclusively' 
+        WHEN 130 THEN 'Went on date(s) & not going out again'
+        WHEN 140 THEN 'Engaged'
+        WHEN 150 THEN 'Male declined'
+        WHEN 160 THEN 'Female declined'
+	    WHEN 170 THEN 'Both declined'
+        ELSE NULL
+	END;
+
 ALTER TABLE members
 DROP COLUMN "Cultural_Background",
 DROP COLUMN how_long_married,
@@ -248,6 +350,12 @@ DROP COLUMN want_to_meet_someone_who_wears_only_skirts;
 
 UPDATE members
 SET times_divorced =
+=======
+DROP COLUMN "Parent_shul";
+
+
+UPDATE members
+SET times_divorced = 
     CASE
         WHEN  "My_marriage_status" = 'Single (Never Married)' THEN '0'
         ELSE '>=1'
@@ -350,3 +458,70 @@ UPDATE members
 SET desired_torah_study = 'NA'
 WHERE gender IN ('Male') AND (desired_torah_study IS NULL or desired_torah_study = '');
 
+DELETE FROM matches
+WHERE id IN    
+    (SELECT matches.id FROM matches LEFT JOIN members AS m ON matches.male_id = m.id LEFT JOIN members AS f ON matches.female_id = f.id WHERE 
+    (m."short_description_of_yourself" ~* '\mtest\M' AND 
+    m."looking_for_in_a_person"~* '\mtest\M' AND 
+    m."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+    m."looking_for_in_a_person" NOT LIKE '%biggest test%')
+    OR
+    (f."short_description_of_yourself" ~* '\mtest\M' AND 
+    f."looking_for_in_a_person"~* '\mtest\M' AND 
+    f."looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+    f."looking_for_in_a_person" NOT LIKE '%biggest test%')
+    OR
+    (m."short_description_of_yourself"ILIKE '%testing%' AND m."looking_for_in_a_person" ILIKE '%testing%')
+    OR
+    (f."short_description_of_yourself"ILIKE '%testing%' AND f."looking_for_in_a_person" ILIKE '%testing%')
+    OR m."City" ~* '\mtest\M' 
+    OR m."Name_Secondary_School"  ILIKE '%test%'
+    OR f."City" ~* '\mtest\M' 
+    OR f."Name_Secondary_School"  ILIKE '%test%'
+);
+DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND 
+"looking_for_in_a_person"~* '\mtest\M' AND 
+"looking_for_in_a_person" NOT LIKE '%litmus test%' AND 
+"looking_for_in_a_person" NOT LIKE '%biggest test%' OR
+"short_description_of_yourself"ILIKE '%testing%' AND
+"looking_for_in_a_person" ILIKE '%testing%' OR
+"City" ~* '\mtest\M' OR 
+"Name_Secondary_School"  ILIKE '%test%';
+
+
+
+UPDATE members
+SET "Preference_cultural_background" = 'Any'
+WHERE "Preference_cultural_background" IS NULL OR TRIM("Preference_cultural_background") = '';
+
+UPDATE members
+SET looking_for_in_a_person = 'open to anything/not picky'
+WHERE looking_for_in_a_person IS NULL OR TRIM(looking_for_in_a_person) = '';
+
+UPDATE members
+SET "Introvert_Extravert" = ''
+WHERE "Introvert_Extravert" IS NULL;
+
+UPDATE members
+SET "Sensor_Intuitive" = ''
+WHERE "Sensor_Intuitive" IS NULL;
+
+UPDATE members
+SET "Thinker_Feeler" = ''
+WHERE "Thinker_Feeler" IS NULL;
+
+UPDATE members
+SET "Judger_Perceiver" = ''
+WHERE "Judger_Perceiver" IS NULL;
+
+UPDATE members
+SET parents_convert_before_birth = 'No'
+WHERE parents_convert_before_birth IS NULL OR TRIM(parents_convert_before_birth) = '';
+ALTER TABLE members ADD COLUMN "Acceptable_places_to_live" VARCHAR;
+
+UPDATE members
+SET  "Acceptable_places_to_live" = "Acceptable_places_to_live_Countries" || ' ' || "Acceptable_places_States";
+
+ALTER TABLE members
+DROP COLUMN "Acceptable_places_to_live_Countries",
+DROP COLUMN "Acceptable_places_States";
