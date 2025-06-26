@@ -355,10 +355,6 @@ SET times_divorced =
 WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
 
 
-
-
-
---removes test rows
 DELETE FROM matches
 WHERE id IN    
     (SELECT matches.id FROM matches LEFT JOIN members AS m ON matches.male_id = m.id LEFT JOIN members AS f ON matches.female_id = f.id WHERE 
@@ -391,3 +387,39 @@ DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND
 
 
 
+=======
+UPDATE members
+SET "Preference_cultural_background" = 'Any'
+WHERE "Preference_cultural_background" IS NULL OR TRIM("Preference_cultural_background") = '';
+
+UPDATE members
+SET looking_for_in_a_person = 'open to anything/not picky'
+WHERE looking_for_in_a_person IS NULL OR TRIM(looking_for_in_a_person) = '';
+
+UPDATE members
+SET "Introvert_Extravert" = ''
+WHERE "Introvert_Extravert" IS NULL;
+
+UPDATE members
+SET "Sensor_Intuitive" = ''
+WHERE "Sensor_Intuitive" IS NULL;
+
+UPDATE members
+SET "Thinker_Feeler" = ''
+WHERE "Thinker_Feeler" IS NULL;
+
+UPDATE members
+SET "Judger_Perceiver" = ''
+WHERE "Judger_Perceiver" IS NULL;
+
+UPDATE members
+SET parents_convert_before_birth = 'No'
+WHERE parents_convert_before_birth IS NULL OR TRIM(parents_convert_before_birth) = '';
+ALTER TABLE members ADD COLUMN "Acceptable_places_to_live" VARCHAR;
+
+UPDATE members
+SET  "Acceptable_places_to_live" = "Acceptable_places_to_live_Countries" || ' ' || "Acceptable_places_States";
+
+ALTER TABLE members
+DROP COLUMN "Acceptable_places_to_live_Countries",
+DROP COLUMN "Acceptable_places_States";
