@@ -343,6 +343,14 @@ DROP COLUMN looking_for_in_spouse,
 DROP COLUMN community_work_2,
 DROP COLUMN "Name_seminaries",
 DROP COLUMN "Parents_marital_status",
+DROP COLUMN "Parent_shul"
+DROP COLUMN "want_to_meet_someone_who_cover_hair",
+DROP COLUMN want_to_meet_someone_who_wears_only_skirts;
+
+
+UPDATE members
+SET times_divorced =
+=======
 DROP COLUMN "Parent_shul";
 
 
@@ -354,6 +362,101 @@ SET times_divorced =
     END
 WHERE times_divorced IS NULL OR TRIM(times_divorced) = '';
 
+ALTER TABLE members
+RENAME COLUMN convert_female TO female_convert;
+
+UPDATE members
+SET female_convert = 'NA'
+WHERE gender IN ('Male');
+
+ALTER TABLE members
+RENAME COLUMN want_covered_hair_male_sign_up TO desired_female_hc;
+
+ALTER TABLE members
+RENAME COLUMN "Head_covering_female" TO female_hc;
+
+UPDATE members
+SET desired_female_hc =
+    CASE
+        WHEN (desired_female_hc IS NULL OR TRIM(desired_female_hc) = '') THEN female_hc
+        ELSE desired_female_hc
+    END
+WHERE gender in ('Male');
+
+UPDATE members
+SET female_hc = 'NA'
+WHERE gender in ('Male');
+
+UPDATE members
+SET female_hc =
+    CASE
+        WHEN (female_hc IS NULL OR TRIM(female_hc) = '') THEN desired_female_hc
+        ELSE female_hc
+    END
+WHERE gender in ('Female');
+
+UPDATE members
+SET desired_female_hc = 'NA'
+WHERE gender in ('Female');
+
+ALTER TABLE members
+RENAME COLUMN "Dress_female" TO female_dress;
+
+UPDATE members
+SET female_dress = 'NA'
+WHERE gender IN ('Male');
+
+ALTER TABLE members
+RENAME COLUMN "Head_covering_male" TO male_hc;
+
+UPDATE members
+SET male_hc = 'NA'
+WHERE gender IN ('Female');
+
+ALTER TABLE members
+RENAME COLUMN "Frequency_of_shul_attendance_male" TO male_shul_attendance;
+
+UPDATE members
+SET male_shul_attendance = 'NA'
+WHERE gender IN ('Female');
+
+ALTER TABLE members
+RENAME COLUMN "Frequency_of_Torah_study_male" TO torah_study; --both men and women answered in this column
+
+ALTER TABLE members
+RENAME COLUMN want_only_wears_skirts TO desired_female_dress;
+
+UPDATE members
+SET female_dress =
+    CASE
+        WHEN (female_dress IS NULL OR TRIM(female_dress) = '') THEN desired_female_dress
+        ELSE female_dress
+    END
+WHERE gender in ('Female');
+
+UPDATE members
+SET desired_female_dress = 'NA'
+WHERE gender in ('Female');
+
+ALTER TABLE members
+RENAME COLUMN "Can_marry_Cohen" TO can_marry_cohen;
+
+UPDATE members
+SET can_marry_cohen =
+    CASE
+        WHEN gender IN ('Male') THEN 'NA'
+        WHEN can_marry_cohen = 'No' THEN 'No'
+        WHEN female_convert IN ('Yes') THEN 'No'
+        WHEN times_divorced IN ('1', '>=1', '2','3','4','5') THEN 'No' --note: the gender when already filters out men
+        ELSE 'Yes'
+    END;
+
+ALTER TABLE members
+RENAME COLUMN male_torah_study_female_sign_up TO desired_torah_study;
+
+UPDATE members
+SET desired_torah_study = 'NA'
+WHERE gender IN ('Male') AND (desired_torah_study IS NULL or desired_torah_study = '');
 
 DELETE FROM matches
 WHERE id IN    
@@ -387,7 +490,6 @@ DELETE FROM members WHERE "short_description_of_yourself" ~* '\mtest\M' AND
 
 
 
-=======
 UPDATE members
 SET "Preference_cultural_background" = 'Any'
 WHERE "Preference_cultural_background" IS NULL OR TRIM("Preference_cultural_background") = '';
