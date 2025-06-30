@@ -1,4 +1,5 @@
 SELECT
+    id,
     CAST(SUBSTRING(height FROM '\((\d+)\s*cm\)') AS INTEGER) AS height,
     CAST(age AS INTEGER),
     CASE 
