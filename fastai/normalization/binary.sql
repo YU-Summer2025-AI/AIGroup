@@ -1,3 +1,6 @@
+
+
+CREATE VIEW member_values AS
 SELECT
     id,
     CAST(SUBSTRING(height FROM '\((\d+)\s*cm\)') AS INTEGER) AS height,
@@ -30,10 +33,6 @@ SELECT
         WHEN body_type = 'Lean/Slender' THEN 1
     ELSE 0
     END AS Lean_Slender,
-    CASE 
-        WHEN body_type = 'A Few Extra Pounds' THEN 1
-    ELSE 0
-    END AS A_Few_Extra_Pounds,
     CASE 
         WHEN body_type = 'Muscular' THEN 1
     ELSE 0
@@ -121,4 +120,4 @@ SELECT
         WHEN judger_perceiver = 'Perceiver' THEN 1
     ELSE 0
     END AS Perceiver
-FROM members
+FROM members;
