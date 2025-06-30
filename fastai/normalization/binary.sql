@@ -1,4 +1,6 @@
 SELECT
+    CAST(SUBSTRING(height FROM '\((\d+)\s*cm\)') AS INTEGER) AS height,
+    CAST(age AS INTEGER),
     CASE 
         WHEN gender = 'Male' THEN 1
     ELSE 0
