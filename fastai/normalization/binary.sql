@@ -103,5 +103,21 @@ SELECT
     CASE 
         WHEN religious_orientation = 'Yeshivish' THEN 1
     ELSE 0
-    END AS Yeshivish
+    END AS Yeshivish,
+    CASE 
+        WHEN introvert_extravert = 'Introvert' THEN 1
+    ELSE 0
+    END AS Introvert,
+    CASE 
+        WHEN sensor_intuitive = 'Sensor' THEN 1
+    ELSE 0
+    END AS Sensor,
+    CASE 
+        WHEN thinker_feeler = 'Feeler' THEN 1
+    ELSE 0
+    END AS Feeler,
+    CASE 
+        WHEN judger_perceiver = 'Perceiver' THEN 1
+    ELSE 0
+    END AS Perceiver
 FROM members
