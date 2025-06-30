@@ -1,3 +1,5 @@
+DROP VIEW IF EXISTS matches_values;
+
 CREATE VIEW matches_values AS
 SELECT 
 CASE matches.overall_pr
