@@ -133,3 +133,5 @@ SET  acceptable_places_to_live = acceptable_places_to_live_countries || ' ' || a
 ALTER TABLE members
 DROP COLUMN acceptable_places_to_live_Countries,
 DROP COLUMN acceptable_places_states;
+
+ALTER TABLE members ADD COLUMN family_religious_background_embedding vector(1024);

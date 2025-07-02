@@ -1,3 +1,10 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE temp_member_embeddings (
+    id INT PRIMARY KEY,
+    family_religious_background_embedding vector(1024)
+);
+
 CREATE TABLE matches
 (
     id INT PRIMARY KEY,
