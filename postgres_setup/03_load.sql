@@ -100,6 +100,89 @@ SET overall_pr =
         ELSE NULL
 	END;
 
+ALTER TABLE members
+ADD COLUMN good_match_rate DECIMAL(5,2);
+
+WITH MaleMatchPerformance AS (
+    SELECT
+        ma.male_id AS member_id,
+        -- Count of successful matches (NULL or 'On%')
+        SUM(CASE
+                WHEN ma.match_quality IS NULL THEN 1
+                WHEN ma.match_quality LIKE 'On%' THEN 1
+                ELSE 0
+            END) AS successful_matches,
+        -- Count of total relevant matches (NULL, 'On%', 'Not%')
+        SUM(CASE
+                WHEN ma.match_quality IS NULL THEN 1
+                WHEN ma.match_quality LIKE 'On%' THEN 1
+                WHEN ma.match_quality LIKE 'Not%' THEN 1
+                ELSE 0
+            END) AS total_relevant_matches
+    FROM
+        matches AS ma
+    WHERE
+        ma.male_id IS NOT NULL -- Ensure we are considering matches with a specified male participant
+        -- No filter on male_s here, as we want to count all relevant match_quality outcomes for his performance
+    GROUP BY
+        ma.male_id
+)
+UPDATE members AS m
+SET good_match_rate =
+    CASE
+        -- If the total relevant matches for this man is 10 or less, set to NULL
+        WHEN mmp.total_relevant_matches IS NULL OR mmp.total_relevant_matches <= 10 THEN NULL
+        -- Otherwise, calculate the percentage
+        ELSE
+            CAST(mmp.successful_matches AS DECIMAL) * 100 /
+            NULLIF(mmp.total_relevant_matches, 0)
+    END
+FROM
+    MaleMatchPerformance AS mmp
+WHERE
+    m.id = mmp.member_id
+    AND m.gender = 'Male';
+
+WITH FemaleMatchPerformance AS (
+    SELECT
+        ma.female_id AS member_id,
+        -- Count of successful matches (NULL or 'On%') for the woman
+        SUM(CASE
+                WHEN ma.match_quality IS NULL THEN 1
+                WHEN ma.match_quality LIKE 'On%' THEN 1
+                ELSE 0
+            END) AS successful_matches,
+        -- Count of total relevant matches (NULL, 'On%', 'Not%') for the woman
+        SUM(CASE
+                WHEN ma.match_quality IS NULL THEN 1
+                WHEN ma.match_quality LIKE 'On%' THEN 1
+                WHEN ma.match_quality LIKE 'Not%' THEN 1
+                ELSE 0
+            END) AS total_relevant_matches
+    FROM
+        matches AS ma
+    WHERE
+        ma.female_id IS NOT NULL -- Ensure we are considering matches with a specified female participant
+        -- No filter on female_s here, as we want to count all relevant match_quality outcomes for her performance
+    GROUP BY
+        ma.female_id
+)
+UPDATE members AS m
+SET good_match_rate =
+    CASE
+        -- If the total relevant matches for this woman is 10 or less, set to NULL
+        WHEN fmp.total_relevant_matches IS NULL OR fmp.total_relevant_matches <= 10 THEN NULL
+        -- Otherwise, calculate the percentage
+        ELSE
+            CAST(fmp.successful_matches AS DECIMAL) * 100 /
+            NULLIF(fmp.total_relevant_matches, 0)
+    END
+FROM
+    FemaleMatchPerformance AS fmp
+WHERE
+    m.id = fmp.member_id
+    AND m.gender = 'Female';
+
 CREATE VIEW matches_physical_eval AS
 SELECT
     -- Selecting match details from the 'matches' table
