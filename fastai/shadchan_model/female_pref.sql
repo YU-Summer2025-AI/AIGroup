@@ -1,8 +1,9 @@
-DROP VIEW IF EXISTS total_female;
-DROP VIEW IF EXISTS female_pref;
-DROP VIEW IF EXISTS male_approved_full;
-DROP VIEW IF EXISTS male_approved;
-DROP VIEW IF EXISTS females;
+DROP VIEW IF EXISTS total_female,
+                    female_pref,
+                    female_approved_full,
+                    female_approved_approved,
+                    females
+CASCADE;
 
 
 CREATE VIEW females AS

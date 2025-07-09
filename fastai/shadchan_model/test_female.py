@@ -3,7 +3,7 @@ import pandas as pd
 from sqlalchemy import create_engine
 from sqlalchemy.sql import text
 learn = load_learner('female_model.pkl')
-engine = create_engine("postgresql+psycopg2://admin:admin@localhost:5432/SYAS")
+engine = create_engine("postgresql+psycopg2://admin:admin@localhost:5432/postgres")
 
 sql_query = text("SELECT * FROM member_values")
 with engine.connect() as conn:
