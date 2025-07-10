@@ -19,12 +19,12 @@ CREATE TABLE members (
     city VARCHAR,
     state VARCHAR,
     gender VARCHAR,
-    age VARCHAR,
+    age INT,
     religious_orientation VARCHAR,
     ethnicity VARCHAR,
     cultural_background VARCHAR,
     baal_teshuva VARCHAR,
-    years_orthodox_baal_teshuva VARCHAR,
+    years_orthodox_baal_teshuva INT,
     cohen VARCHAR,
     female_convert VARCHAR,
     parents_convert VARCHAR,
@@ -77,8 +77,8 @@ CREATE TABLE members (
     additional_pet_i_own VARCHAR,
     native_language VARCHAR,
     languages_spoken VARCHAR,
-    age_min VARCHAR,
-    age_max VARCHAR,
+    age_min INT,
+    age_max INT,
     height_min VARCHAR,
     height_max VARCHAR,
     desired_marital_status VARCHAR,
@@ -126,11 +126,11 @@ CREATE TABLE members (
     parent_shul VARCHAR,
     parent_location VARCHAR,
     parents_marital_status VARCHAR,
-    complete_incomplete VARCHAR,
+    complete_incomplete INT,
     photo VARCHAR,
     site VARCHAR,
     profile_last_modified_date TIMESTAMP WITHOUT TIME ZONE,
-    updated VARCHAR
+    updated INT
 );
 
 COPY matches
