@@ -1,3 +1,27 @@
+ALTER TABLE members
+ADD COLUMN height_inches INT;
+
+UPDATE members
+SET height_inches =
+    CAST(SUBSTRING(height FROM '^(\d+)''') AS INT) * 12 +
+    CAST(SUBSTRING(height FROM '''(\d+)"') AS INT);
+
+ALTER TABLE members
+ADD COLUMN num_matches INT DEFAULT 0;
+
+UPDATE members
+SET num_matches = (
+    SELECT COUNT(*)
+    FROM (
+        -- Combine male and female IDs into a single list of participants
+        SELECT male_id AS participant_id FROM matches
+        UNION ALL
+        SELECT female_id AS participant_id FROM matches
+    ) AS all_participants
+    -- Count how many times the current member's ID appears in the combined list
+    WHERE all_participants.participant_id = members.id
+);
+
 ALTER TABLE matches
 ADD COLUMN overall_pr VARCHAR(255);
 
