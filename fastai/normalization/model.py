@@ -8,12 +8,14 @@ engine = create_engine("postgresql+psycopg2://admin:admin@localhost:5432/SYAS")
 
 
 
+
 sql_query = text("SELECT * FROM matches_values")
 
 with engine.connect() as conn:
     df = pd.read_sql(sql_query, conn)
 
 print(df.head())
+
 
 dep_var = 'match_status'
 cont_names = ['male_age', 'male_height','female_age', 'female_height','height_diff', 'age_diff']

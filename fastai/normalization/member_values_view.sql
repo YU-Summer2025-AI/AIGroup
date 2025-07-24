@@ -1,4 +1,6 @@
+DROP VIEW IF EXISTS matches_values;
 DROP VIEW IF EXISTS member_values;
+
 
 CREATE VIEW member_values AS
 SELECT
