@@ -1,5 +1,15 @@
-the four folders in this file show the differnt models and api's that we biult.
-attempted_models: the models that we attempted to biuld and had minimal sucess with them
-match_analysis_models: the models that explain why certain predections were made either with shap or with a tree explainer (there are also api's)
-match_prediction_models: models that predict the outcome of a match either with existing members of potential members
-match_recommendation_models: model and api that predicts top matches for an individual
+This directory contains four folders, each housing different models and APIs we've built:
+
+- **`attempted_models`**  
+  Models we attempted to build but had minimal success with.
+
+- **`match_analysis_models`**  
+  Models that explain why certain predictions were made, using SHAP and tree explainers. This folder also contains related APIs.
+
+- **`match_prediction_models`**  
+  Models that predict the outcome of a match, whether involving existing members or potential members Contains and API.
+
+- **`match_recommendation_models`**  
+  Models and APIs that predict the top matches for an individual Also contains and API
+
+
