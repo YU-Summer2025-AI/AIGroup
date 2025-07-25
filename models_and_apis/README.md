@@ -4,12 +4,12 @@ This directory contains four folders, each housing different models and APIs we'
   Models we attempted to build but had minimal success with.
 
 - **`match_analysis_models`**  
-  Models that explain why certain predictions were made, using SHAP and tree explainers. This folder also contains related APIs.
+  Models that explain why certain predictions were made, using SHAP and tree explainers. This folder also contains an APIs.
 
 - **`match_prediction_models`**  
-  Models that predict the outcome of a match, whether involving existing members or potential members Contains and API.
+  Models that predict the outcome of a match, whether involving existing members or potential members. Contains an API.
 
 - **`match_recommendation_models`**  
-  Models and APIs that predict the top matches for an individual Also contains and API
+  Models and APIs that predict the top matches for an individual. Contains an API.
 
 
