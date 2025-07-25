@@ -15,7 +15,7 @@ COPY raw_data/ ./raw_data/
 RUN python clean_data.py
 
 # Stage 2
-FROM postgres:latest
+FROM pgvector/pgvector:pg17
 
 # Copy your database initialization script
 COPY 01_extract.sql /docker-entrypoint-initdb.d/

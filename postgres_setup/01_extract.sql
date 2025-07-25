@@ -1,3 +1,10 @@
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE temp_member_embeddings (
+    id INT PRIMARY KEY,
+    family_religious_background_embedding TEXT
+);
+
 CREATE TABLE matches
 (
     id INT PRIMARY KEY,
@@ -308,3 +315,12 @@ ALTER TABLE matches
 ADD CONSTRAINT female_member
 FOREIGN KEY (female_id)
 REFERENCES members(id);
+
+COPY temp_member_embeddings
+    (
+    id,
+    family_religious_background_embedding
+    )
+FROM '/docker-entrypoint-initdb.d/raw_data/embeddings.csv'
+DELIMITER ','
+CSV HEADER;
