@@ -43,12 +43,3 @@ This repository contains code, data, and models for a comprehensive ETL and mach
 - **Model Training & Analysis**: Explore and run notebooks/scripts in `models_and_apis/` for training, evaluation, and analysis.
 - **APIs**: Deploy or test APIs for recommendations and analysis as provided in the relevant subfolders.
 
-## Contributing
-Contributions are welcome! Please open issues or submit pull requests for improvements, bug fixes, or new features.
-
-## License
-Specify your license here (e.g., MIT, GPL, etc.).
-
-## Contact
-For questions or collaboration, please contact the project maintainers.
-
